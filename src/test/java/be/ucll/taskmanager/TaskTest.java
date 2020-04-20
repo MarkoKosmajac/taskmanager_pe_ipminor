@@ -58,4 +58,9 @@ public class TaskTest {
         assertEquals(task.getSubtasks().get(0),subtasks.get(0));
     }
 
+    @Test
+    public void failTest(){
+        fail();
+    }
+
 }
