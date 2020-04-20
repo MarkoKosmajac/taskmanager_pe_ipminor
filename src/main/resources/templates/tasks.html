@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tasks</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<div th:insert="fragments/general.html :: header"></div>
+
+    <main>
+        <h1 style="margin:5px;padding:5px;">Tasks</h1>
+        <div th:if="${not #lists.isEmpty(tasks)}">
+        <table class="table" >
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Due date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="task : ${tasks}">
+                <td th:text="${task.title}"></td>
+                <td th:text="${task.dueDate}"></td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+        <div th:if="${#lists.isEmpty(tasks)}" style="margin:5px;padding: 5px;">
+            <h2>There are currently no tasks</h2>
+        </div>
+    </main>
+
+</body>
+</html>

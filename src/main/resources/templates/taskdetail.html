@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Task detail</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<div th:insert="fragments/general.html :: header"></div>
+
+<main>
+
+    <h1 style="margin:5px;padding:5px;">Tasks</h1>
+
+    <div th:if="${getSelectedTask == null}">
+        <div class="alert alert-danger" role="alert" style="margin:5px;padding: 5px;">
+            Task not found!
+        </div>
+    </div>
+    <div th:if="${getSelectedTask != null}">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Due date</th>
+                <th scope="col">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${getSelectedTask.title}"></td>
+                <td th:text="${getSelectedTask.dueDate}"></td>
+                <td th:text="${getSelectedTask.description}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h1 style="margin:5px;padding:5px;">Subtasks:</h1>
+        <div th:if="${#lists.isEmpty(getSelectedTask.getSubtasks())}">
+            <div class="alert alert-danger" role="alert" style="margin:5px;padding: 5px;">
+                No subtasks available
+            </div>
+        </div>
+        <div th:if="${not #lists.isEmpty(getSelectedTask.getSubtasks())}">
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col"> Title </th>
+                    <th scope="col"> Description </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${getSelectedTask.getSubtasks() == null}">
+                    <td colspan="2"> No Subtasks Available </td>
+                </tr>
+                <tr th:each="subtask : ${getSelectedTask.getSubtasks()}">
+                    <td><span th:text="${subtask.title}"> Title </span></td>
+                    <td><span th:text="${subtask.description}"> Author </span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</main>
+</body>
+</html>
