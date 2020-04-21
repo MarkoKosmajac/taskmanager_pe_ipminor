@@ -1,8 +1,11 @@
 package be.ucll.taskmanager.models;
 
 
+import javax.validation.constraints.NotEmpty;
+
 public class SubtaskDTO{
 
+    @NotEmpty
     private String title;
     private String description;
 

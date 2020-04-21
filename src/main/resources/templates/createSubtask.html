@@ -16,16 +16,18 @@
 <main>
     <div th:if="${getSelectedTask != null}">
         <h1 style="margin:5px;padding: 5px;">Create Subtask</h1>
-        <form method="post" th:action="@{'/tasks/' + ${getSelectedTask.id} + '/sub/create'}" style="margin:5px;padding: 5px;">
+        <form method="post" th:action="@{'/tasks/' + ${getSelectedTask.id} + '/sub/create'}" th:object="${subtaskDTO}" style="margin:5px;padding: 5px;">
+            <p th:text="${#fields.globalErrors()}"></p>
 
             <div class="form-group" style="margin:5px;padding: 5px;">
                 <label for="title">Title:</label>
-                <input class="form-control" id="title" name="title" type="text">
+                <input class="form-control" id="title" name="title" type="text" th:field="*{title}">
+                <p th:errors="*{title}"></p>
             </div>
 
             <div class="form-group" style="margin:5px;padding: 5px;">
                 <label for="description">Description:</label>
-                <input class="form-control" id="description" name="description" type="text">
+                <input class="form-control" id="description" name="description" type="text" th:field="*{description}">
             </div>
 
             <input type="submit" value="Create Subtask" class="btn btn-dark" style="margin:5px;padding: 5px;">

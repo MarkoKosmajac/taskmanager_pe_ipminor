@@ -3,6 +3,7 @@ package be.ucll.taskmanager.models;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class Subtask {
@@ -11,6 +12,7 @@ public class Subtask {
     @GeneratedValue
     private Long DbID;
 
+    @NotEmpty
     private String title;
     private String description;
 

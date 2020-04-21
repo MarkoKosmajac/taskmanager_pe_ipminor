@@ -3,6 +3,8 @@ package be.ucll.taskmanager.models;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,7 @@ public class Task {
     @GeneratedValue
     private Long DbID;
 
+    @NotEmpty
     private String title;
     private String description;
 

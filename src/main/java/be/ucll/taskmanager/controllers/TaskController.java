@@ -8,7 +8,10 @@ import be.ucll.taskmanager.services.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/tasks")
@@ -29,17 +32,19 @@ public class TaskController {
     }
 
     @GetMapping("/new")
-    public String getCreateForm()
+    public String getCreateForm(Model model)
     {
-        //model.addAttribute("head", new Head());???
+        model.addAttribute("taskDTO", new TaskDTO());
         return "createTask";
     }
 
     @PostMapping("/new")
-    public String postNewTask(@ModelAttribute TaskDTO task)
+    public String postNewTask(@ModelAttribute @Valid TaskDTO task, BindingResult bindingResult)
     {
+        if (bindingResult.hasErrors()) {
+            return "createTask";
+        }
         service.addTask(task);
-        System.out.println("maked: " + task.getId());
         return "redirect:/tasks";
     }
 
@@ -54,14 +59,20 @@ public class TaskController {
     @GetMapping("/edit/{id}")
     public String getEditForm(@PathVariable(name = "id") long id, Model model)
     {
+        model.addAttribute("taskDTO", new TaskDTO());
         model.addAttribute("id",id);
         model.addAttribute("getSelectedTask",service.getSelectedTask(id));
         return "editTask";
     }
 
     @PostMapping("/edit/{id}")
-    public String editTask(@PathVariable(name = "id") long id, @ModelAttribute TaskDTO taskDTO)
+    public String editTask(@PathVariable(name = "id") long id, @ModelAttribute @Valid TaskDTO taskDTO, BindingResult bindingResult, Model model)
     {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("id",id);
+            model.addAttribute("getSelectedTask",service.getSelectedTask(id));
+            return "editTask";
+        }
         this.service.editTask(id, taskDTO);
         return "redirect:/tasks/{id}";
     }
@@ -69,15 +80,19 @@ public class TaskController {
     @GetMapping("/{id}/sub/create")
     public String getNewSubtaskForm(@PathVariable(name = "id") long id, Model model)
     {
-        //model.addAttribute("id",id);
+        model.addAttribute("subtaskDTO", new SubtaskDTO());
         model.addAttribute("getSelectedTask",service.getSelectedTask(id));
         model.addAttribute("subtask", new SubtaskDTO());
         return "createSubtask";
     }
 
     @PostMapping("/{id}/sub/create")
-    public String makeNewSubtask(@PathVariable(name = "id") long id, @ModelAttribute SubtaskDTO subtaskDTO, Model model)
+    public String makeNewSubtask(@PathVariable(name = "id") long id, @ModelAttribute @Valid SubtaskDTO subtaskDTO, BindingResult bindingResult, Model model)
     {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("getSelectedTask",service.getSelectedTask(id));
+            return "createSubtask";
+        }
         this.service.addSubtask(id, subtaskDTO);
         return "redirect:/tasks/{id}";
     }
