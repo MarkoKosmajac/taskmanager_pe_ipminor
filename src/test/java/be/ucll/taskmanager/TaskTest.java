@@ -57,5 +57,5 @@ public class TaskTest {
         assertEquals(task.getId(),8);
         assertEquals(task.getSubtasks().get(0),subtasks.get(0));
     }
-    
+
 }

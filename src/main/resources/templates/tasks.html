@@ -2,20 +2,22 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Tasks</title>
+    <title th:text="#{pageTitle}"></title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
 <div th:insert="fragments/general.html :: header"></div>
 
     <main>
-        <h1 style="margin:5px;padding:5px;">Tasks</h1>
+        <h1 style="margin:5px;padding:5px;" th:text="#{greeting}"></h1>
+
+        <h1 style="margin:5px;padding:5px;" th:text="#{tasks}"></h1>
         <div th:if="${not #lists.isEmpty(tasks)}">
         <table class="table" >
             <thead class="thead-dark">
             <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Due date</th>
+                <th scope="col" th:text="#{title}"></th>
+                <th scope="col" th:text="#{duedate}"></th>
             </tr>
             </thead>
             <tbody>
@@ -27,9 +29,28 @@
         </table>
         </div>
         <div th:if="${#lists.isEmpty(tasks)}" style="margin:5px;padding: 5px;">
-            <h2>There are currently no tasks</h2>
+            <h2 th:text="#{currentlyNoTasks}"></h2>
         </div>
     </main>
 
+<span th:text="#{lang.change}"></span>:
+<select id="locales">
+    <option value=""></option>
+    <option value="en" th:text="#{lang.eng}"></option>
+    <option value="nl" th:text="#{lang.nl}"></option>
+</select>
+
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js">
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#locales").change(function () {
+            var selectedOption = $('#locales').val();
+            if (selectedOption != ''){
+                window.location.replace('?lang=' + selectedOption);
+            }
+        });
+    });
+</script>
 </html>
